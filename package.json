@@ -1,0 +1,16 @@
+{
+  "name": "exchangedeal-ai",
+  "version": "1.0.0",
+  "description": "India's smartest phone exchange comparison platform",
+  "private": true,
+  "scripts": {
+    "install:all": "cd frontend && npm install && cd ../backend && npm install && cd ../scrapers && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:scrapers": "cd scrapers && npm run start",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "docker:build": "docker compose -f docker/docker-compose.yml up -d --build",
+    "docker:logs": "docker compose -f docker/docker-compose.yml logs -f"
+  }
+}

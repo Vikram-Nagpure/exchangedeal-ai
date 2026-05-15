@@ -1,0 +1,122 @@
+╔══════════════════════════════════════════════════════════════════╗
+║           ExchangeDeal AI — SETUP GUIDE (Step by Step)          ║
+╚══════════════════════════════════════════════════════════════════╝
+
+FREE DEPLOYMENT — Vercel + Railway + MongoDB Atlas + Upstash Redis
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — MongoDB Atlas (Free Database)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://mongodb.com/atlas → Sign up free
+2. Create Project → Create Cluster → Select M0 FREE
+3. Region: AWS Mumbai (ap-south-1)
+4. Username: exchangeadmin  |  Password: (set your own)
+5. Network Access → Add IP → Allow from Anywhere (0.0.0.0/0)
+6. Connect → Drivers → Copy connection string:
+   mongodb+srv://exchangeadmin:PASSWORD@xxx.mongodb.net/exchangedeal
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — Upstash Redis (Free Cache)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://upstash.com → Sign up free
+2. Create Database → Name: exchangedeal → Region: Mumbai
+3. Copy Redis URL from "Connect" tab:
+   redis://default:PASSWORD@xxx.upstash.io:6379
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — GitHub Upload
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://github.com → New Repository → "exchangedeal-ai"
+2. Extract this ZIP on your PC
+3. Open terminal inside exchangedeal-ai folder:
+
+   git init
+   git add .
+   git commit -m "initial commit"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/exchangedeal-ai.git
+   git push -u origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 4 — Railway (Backend Deploy)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://railway.app → Login with GitHub
+2. New Project → Deploy from GitHub → Select "exchangedeal-ai"
+3. When asked for folder → select "backend"
+4. After deploy → Go to "Variables" tab → Add these:
+
+   NODE_ENV         = production
+   PORT             = 5000
+   MONGODB_URI      = (paste from Step 1)
+   REDIS_URL        = (paste from Step 2)
+   JWT_SECRET       = exchangedeal-secret-2024-india
+   FRONTEND_URL     = https://exchangedeal-ai.vercel.app
+
+5. Settings → Generate Domain → Copy URL
+   Example: https://exchangedeal-ai-production.up.railway.app
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 5 — Vercel (Frontend Deploy)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go to: https://vercel.com → Login with GitHub
+2. New Project → Import "exchangedeal-ai"
+3. Root Directory → Change to "frontend"
+4. Environment Variables → Add:
+
+   NEXT_PUBLIC_API_URL = (paste Railway URL from Step 4)
+   NEXT_PUBLIC_APP_NAME = ExchangeDeal AI
+
+5. Click Deploy!
+6. Your site URL: https://exchangedeal-ai.vercel.app
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 6 — Final Update
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Go back to Railway → Variables
+2. Update FRONTEND_URL = your actual Vercel URL
+3. Railway will auto-redeploy
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ DONE! Your site is LIVE!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Test karo:
+  Frontend : https://exchangedeal-ai.vercel.app
+  API Test : https://xxx.railway.app/health
+  Compare  : POST https://xxx.railway.app/api/compare
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOCAL TESTING (Optional)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Backend:
+  cd backend
+  copy .env.example .env     (Windows)
+  cp .env.example .env       (Mac/Linux)
+  → Edit .env with your MongoDB & Redis URLs
+  npm install
+  npm run dev
+  → Runs on http://localhost:5000
+
+Frontend:
+  cd frontend
+  copy .env.example .env     (Windows)
+  cp .env.example .env       (Mac/Linux)
+  → Edit NEXT_PUBLIC_API_URL=http://localhost:5000
+  npm install
+  npm run dev
+  → Runs on http://localhost:3000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+exchangedeal-ai/
+├── frontend/          ← Next.js app (Deploy on Vercel)
+├── backend/           ← Node.js API (Deploy on Railway)
+├── scrapers/          ← Playwright scrapers (Run locally)
+├── database/          ← MongoDB schemas & seed data
+├── docker/            ← Docker compose (for VPS later)
+├── SETUP_GUIDE.txt    ← This file
+└── .env.example       ← Environment variables template
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Built with ❤️ for India | ExchangeDeal AI
