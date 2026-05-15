@@ -36,7 +36,7 @@ const MOCK_RESULTS = [
   },
 ];
 
-const fmt = n => `₹${n.toLocaleString('en-IN')}`;
+const fmt = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 
 function StarRating({ rating }) {
   return (
